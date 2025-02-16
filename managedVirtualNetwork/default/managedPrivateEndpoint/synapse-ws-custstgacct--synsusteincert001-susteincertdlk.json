@@ -1,0 +1,10 @@
+{
+	"name": "synapse-ws-custstgacct--synsusteincert001-susteincertdlk",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/2fa0e512-f70e-430f-9186-1b06543a848e/resourceGroups/rg-susteincert/providers/Microsoft.Storage/storageAccounts/susteincertdlk",
+		"groupId": "dfs",
+		"fqdns": [
+			"susteincertdlk.dfs.core.windows.net"
+		]
+	}
+}

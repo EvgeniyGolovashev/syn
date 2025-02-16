@@ -1,0 +1,107 @@
+{
+	"name": "ReadData",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "Sparkpool001",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "edf29c34-3629-40b9-bca4-1efda2b14068"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/2fa0e512-f70e-430f-9186-1b06543a848e/resourceGroups/rg-susteincert/providers/Microsoft.Synapse/workspaces/synsusteincert001/bigDataPools/Sparkpool001",
+				"name": "Sparkpool001",
+				"type": "Spark",
+				"endpoint": "https://synsusteincert001.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/Sparkpool001",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"# Generate the list of file paths\r\n",
+					"base_path = 'abfss://susteincertdlk@susteincertdlk.dfs.core.windows.net/SandBoxData/output_file_'\r\n",
+					"file_paths = [f\"{base_path}{i}.parquet\" for i in range(1, 100)]\r\n",
+					"\r\n",
+					"# Read the parquet files\r\n",
+					"df = spark.read.load(file_paths, format='parquet')\r\n",
+					"\r\n",
+					"# Create the schema if it does not exist\r\n",
+					"spark.sql(\"CREATE SCHEMA IF NOT EXISTS sandbox\")\r\n",
+					"\r\n",
+					"# Write the DataFrame to a table\r\n",
+					"df.write.mode(\"overwrite\").saveAsTable(\"sandbox.salary\")\r\n",
+					"\r\n",
+					"# Create a new DataFrame with the summary of salary by Name\r\n",
+					"name_summary_df = df.groupBy(\"Name\").agg({\"Salary\": \"sum\"}).withColumnRenamed(\"sum(Salary)\", \"total_salary\")\r\n",
+					"\r\n",
+					"# Write the name summary DataFrame to a new table\r\n",
+					"name_summary_df.write.mode(\"overwrite\").saveAsTable(\"sandbox.salary_name_summary\")"
+				],
+				"execution_count": 5
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Create a new DataFrame with the date summary of salary\r\n",
+					"date_summary_df = df.groupBy(\"date\").agg({\"salary\": \"sum\"}).withColumnRenamed(\"sum(salary)\", \"total_salary\")\r\n",
+					"\r\n",
+					"# Write the date summary DataFrame to a new table\r\n",
+					"date_summary_df.write.mode(\"overwrite\").saveAsTable(\"sandbox.salary_date_summary\")"
+				],
+				"execution_count": 3
+			}
+		]
+	}
+}

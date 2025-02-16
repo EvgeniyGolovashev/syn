@@ -1,0 +1,10 @@
+{
+	"name": "synapse-ws-sql--synsusteincert001",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/2fa0e512-f70e-430f-9186-1b06543a848e/resourceGroups/rg-susteincert/providers/Microsoft.Synapse/workspaces/synsusteincert001",
+		"groupId": "sql",
+		"fqdns": [
+			"synsusteincert001.7d0e5b6a-97ef-4f4e-847c-fb6366b616eb.sql.azuresynapse.net"
+		]
+	}
+}
