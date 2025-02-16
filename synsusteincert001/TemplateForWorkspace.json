@@ -213,12 +213,16 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "edf29c34-3629-40b9-bca4-1efda2b14068"
+						"spark.autotune.trackingId": "6dca66f4-ecee-467f-b740-1a0407ae8cb7"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
 					"language_info": {
 						"name": "python"
 					},
@@ -229,14 +233,13 @@
 						"endpoint": "https://synsusteincert001.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/Sparkpool001",
 						"auth": {
 							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net",
-							"authHeader": null
+							"authResource": "https://dev.azuresynapse.net"
 						},
 						"sparkVersion": "3.4",
 						"nodeCount": 10,
 						"cores": 4,
 						"memory": 28,
-						"extraHeader": null
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -271,7 +274,7 @@
 							"name_summary_df.write.mode(\"overwrite\").saveAsTable(\"sandbox.salary_name_summary\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -294,7 +297,7 @@
 							"date_summary_df.write.mode(\"overwrite\").saveAsTable(\"sandbox.salary_date_summary\")"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": null
 					}
 				]
 			},
